@@ -8,10 +8,24 @@ public class DrawSpline : MonoBehaviour
     [SerializeField] private SplineConstants projectConstants;
 
     [SerializeField] private SplineContainer spline;
+    [SerializeField] private bool drawOnStart = true;
 
+    private GameObject drawnLine = null;
 
     void Start()
     {
+        if (drawOnStart)
+        {
+            RepaintSpline();
+        }
+    }
+
+    public void RepaintSpline()
+    {
+        if (drawnLine != null) {
+            Destroy(drawnLine);
+        }
+
         foreach (var segment in spline.GetSegments())
         {
             DrawSegment(segment, 1);
@@ -23,6 +37,7 @@ public class DrawSpline : MonoBehaviour
     {
         var line = draw.DrawLine(segment.generatePointsOnSegment(32, tValue), Color.black, Color.black);
         line.GetComponent<LineRenderer>().sortingOrder = 2;
+        drawnLine = line;
     }
 
     private void DrawAnnotations(SplineSegment segment)

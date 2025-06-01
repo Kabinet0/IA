@@ -21,4 +21,14 @@ public class SplineContainer : MonoBehaviour
     {
         return splineSegments;
     }
+
+    public float GetSplineLength()
+    {
+        float total = 0;
+        foreach (var segment in splineSegments)
+        {
+            total += segment.GetLength(32);
+        }
+        return total;
+    }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SplineSegment : MonoBehaviour
 {
@@ -49,15 +50,22 @@ public class SplineSegment : MonoBehaviour
         {
             float t = ((float)i / (steps - 1)) * tValue;
             points.Add(
-                (Mathf.Pow((1.0f - t), 3) * P0) +
-                (3.0f * t * P1 * (1.0f - t) * (1.0f - t)) +
-                (3.0f * (1.0f - t) * t * t * P2) +
-                (t * t * t * P3)
+                getPointOnCurve(P0, P1, P2, P3, t)
             );
             //Debug.Log(points[i]);
         }
 
         return points;
+    }
+
+    public static Vector2 getPointOnCurve(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t)
+    {
+        return (
+            (Mathf.Pow((1.0f - t), 3) * P0) +
+            (3.0f * t * P1 * (1.0f - t) * (1.0f - t)) +
+            (3.0f * (1.0f - t) * t * t * P2) +
+            (t * t * t * P3)
+        );
     }
 
     public List<Vector2> generateDerrivativeVectors(int steps, float tValue = 1)
@@ -81,5 +89,22 @@ public class SplineSegment : MonoBehaviour
         }
 
         return points;
+    }
+
+    public float GetLength(int steps)
+    {
+        float sum = 0;
+        Vector2 currentPoint = GetP0();
+        for (int i = 0; i < steps; i++)
+        {
+            float t = Mathf.Clamp01((float)(i + 1) / (steps));
+            Vector2 nextPoint = getPointOnCurve(GetP0(), GetP1(), GetP2(), GetP3(), t);
+
+            sum += Vector2.Distance(currentPoint, nextPoint);
+
+            currentPoint = nextPoint;
+        }
+
+        return sum;
     }
 }
