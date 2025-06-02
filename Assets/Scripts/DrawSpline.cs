@@ -31,14 +31,14 @@ public class DrawSpline : MonoBehaviour
         }
     }
 
-    private void DrawSegment(SplineSegment segment, float tValue)
+    private void DrawSegment(ISplineSegment segment, float tValue)
     {
         var line = draw.DrawLine(segment.generatePointsOnSegment(32, tValue), Color.black, Color.black);
         line.GetComponent<LineRenderer>().sortingOrder = 2;
         drawnLine = line;
     }
 
-    private void DrawAnnotations(SplineSegment segment)
+    private void DrawAnnotations(ISplineSegment segment)
     {
         draw.DrawLine(segment.GetP0(), segment.GetP1(), projectConstants.LightPurple, projectConstants.LightRed);
         draw.DrawLine(segment.GetP1(), segment.GetP2(), projectConstants.LightRed, projectConstants.LightRed);

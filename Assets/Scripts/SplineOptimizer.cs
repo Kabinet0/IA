@@ -13,19 +13,6 @@ public class SplineOptimizer : MonoBehaviour
     private int pauseCounter = 0;
 
 
-    public class SplineSegmentRaw
-    {
-        public Vector2 P0;
-        public Vector2 P1;
-        public Vector2 P2;
-        public Vector2 P3;
-
-        public override string ToString()
-        {
-            return "(" + P0.ToString() + ", " + P1.ToString() + ", " + P2.ToString() + ", " + P3.ToString() + ")";
-        }
-    }
-
     [SerializeField] private List<Vector2> points;
     [SerializeField] private float mutationRange = 3;
     private List<splineOptimizerRepresentation> pool = new List<splineOptimizerRepresentation>();
@@ -35,7 +22,7 @@ public class SplineOptimizer : MonoBehaviour
     {
         private readonly List<Vector2> points;
         private List<Vector2> pointParms = new List<Vector2>(); // Velocity vector is parm
-        private List<SplineSegmentRaw> rawSegments = new List<SplineSegmentRaw>();
+        private List<ISplineSegment> rawSegments = new List<ISplineSegment>();
 
         public splineOptimizerRepresentation(List<Vector2> _points, float mutationRange)
         {
@@ -50,7 +37,7 @@ public class SplineOptimizer : MonoBehaviour
 
             for (int i = 1; i < pointParms.Count; i++)
             {
-                rawSegments.Add(new SplineSegmentRaw());
+                rawSegments.Add(new BaseSplineSegment());
             }
 
             Debug.Log("parms: " + string.Join(", ", pointParms));
@@ -70,7 +57,7 @@ public class SplineOptimizer : MonoBehaviour
             return pointParms;
         }
 
-        public List<SplineSegmentRaw> getRaw()
+        public List<ISplineSegment> getRaw()
         {
             return rawSegments;
         }
@@ -88,7 +75,11 @@ public class SplineOptimizer : MonoBehaviour
 
         public void PrintRaw()
         {
-            Debug.Log("raw: " + string.Join(", ", rawSegments));
+            string str = "";
+            foreach (ISplineSegment segment in rawSegments) {
+                str += segment.GetAsString() + ", ";
+            }
+            Debug.Log("raw: " + str);
         }
 
         public float CalculateFitness()
@@ -98,7 +89,7 @@ public class SplineOptimizer : MonoBehaviour
             float total = 0;
             foreach (var segment in rawSegments)
             {
-                total += SplineSegment.GetLength(segment.P0, segment.P1, segment.P2, segment.P3, 32);
+                total += segment.GetLength(32);
             }
             return total;
         }
@@ -113,11 +104,7 @@ public class SplineOptimizer : MonoBehaviour
                 Vector2 pointStart = points[i - 1];
                 Vector2 pointEnd = points[i];
 
-                rawSegments[i - 1].P0 = pointStart;
-                rawSegments[i - 1].P3 = pointEnd;
-
-                rawSegments[i - 1].P1 = pointStart + (velStart / 3.0f);
-                rawSegments[i - 1].P2 = pointEnd - (velEnd / 3.0f);
+                rawSegments[i - 1].setData(pointStart, pointStart + (velStart / 3.0f), pointEnd - (velEnd / 3.0f), pointEnd);
             }
         }
     }

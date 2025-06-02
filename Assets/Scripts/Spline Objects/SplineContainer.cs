@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SplineContainer : MonoBehaviour
 {
-    [SerializeField] private List<SplineSegment> splineSegments;
+    [SerializeField] private List<ISplineSegment> splineSegments;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,7 +18,7 @@ public class SplineContainer : MonoBehaviour
         
     }
 
-    public void SetSegments(List<SplineOptimizer.SplineSegmentRaw> segments)
+    public void SetSegments(List<ISplineSegment> segments)
     {
         if (segments.Count != splineSegments.Count)
         {
@@ -32,7 +32,7 @@ public class SplineContainer : MonoBehaviour
         }
     }
 
-    public List<SplineSegment> GetSegments()
+    public List<ISplineSegment> GetSegments()
     {
         return splineSegments;
     }
