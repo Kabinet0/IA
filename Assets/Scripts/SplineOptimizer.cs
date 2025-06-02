@@ -22,7 +22,7 @@ public class SplineOptimizer : MonoBehaviour
     {
         private readonly List<Vector2> points;
         private List<Vector2> pointParms = new List<Vector2>(); // Velocity vector is parm
-        private List<ISplineSegment> rawSegments = new List<ISplineSegment>();
+        private List<BaseSplineSegment> rawSegments = new List<BaseSplineSegment>();
 
         public splineOptimizerRepresentation(List<Vector2> _points, float mutationRange)
         {
@@ -57,7 +57,7 @@ public class SplineOptimizer : MonoBehaviour
             return pointParms;
         }
 
-        public List<ISplineSegment> getRaw()
+        public List<BaseSplineSegment> getRaw()
         {
             return rawSegments;
         }
@@ -76,8 +76,8 @@ public class SplineOptimizer : MonoBehaviour
         public void PrintRaw()
         {
             string str = "";
-            foreach (ISplineSegment segment in rawSegments) {
-                str += segment.GetAsString() + ", ";
+            foreach (BaseSplineSegment segment in rawSegments) {
+                str += segment + ", ";
             }
             Debug.Log("raw: " + str);
         }

@@ -20,7 +20,7 @@ public class DerrivativeGraph : MonoBehaviour
         int k = 0;
         foreach (var segment in spline.GetSegments())
         {
-            var dxdy = segment.generateDerrivativeVectors(32);
+            var dxdy = segment.getBaseSegment().generateDerrivativeVectors(32);
             var scaledList = new List<Vector2>();
             
             // ignore first point?

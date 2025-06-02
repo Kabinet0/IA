@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.HableCurve;
 
-public class SplineSegment : MonoBehaviour, ISplineSegment
+public class SplineSegment : MonoBehaviour
 {
     [SerializeField] private Transform P0;
     [SerializeField] private Transform P1;
@@ -17,27 +17,12 @@ public class SplineSegment : MonoBehaviour, ISplineSegment
         baseSegment.setData(P0.position, P1.position, P2.position, P3.position);
     }
 
-    public List<Vector2> generateDerrivativeVectors(int steps, float tValue = 1)
+    public BaseSplineSegment getBaseSegment()
     {
-        throw new System.NotImplementedException();
+        return baseSegment;
     }
 
-    public List<Vector2> generatePointsOnSegment(int steps, float tValue = 1)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public float GetLength(int steps) { return baseSegment.GetLength(steps); }
-
-    public Vector2 GetP0() { return baseSegment.GetP0(); }
-
-    public Vector2 GetP1() { return baseSegment.GetP1(); }
-
-    public Vector2 GetP2() { return baseSegment.GetP2(); }
-
-    public Vector2 GetP3() { return baseSegment.GetP3(); }
-
-    public void setData(ISplineSegment segment) {
+    public void setData(BaseSplineSegment segment) {
         setData(segment.GetP0(), segment.GetP1(), segment.GetP2(), segment.GetP3());
     }
 
@@ -50,8 +35,8 @@ public class SplineSegment : MonoBehaviour, ISplineSegment
         this.P3.position = P3;
     }
 
-    public string GetAsString()
+    public override string ToString()
     {
-        return baseSegment.GetAsString();
+        return baseSegment.ToString();
     }
 }

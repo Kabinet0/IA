@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.HableCurve;
 
-public class BaseSplineSegment : ISplineSegment {
+public class BaseSplineSegment {
     private Vector2 P0, P1, P2, P3 = Vector2.zero;
 
-    public void setData(ISplineSegment segment)
+    public void setData(BaseSplineSegment segment)
     {
         setData(segment.GetP0(), segment.GetP1(), segment.GetP2(), segment.GetP3());
     }
@@ -114,7 +114,7 @@ public class BaseSplineSegment : ISplineSegment {
         return sum;
     }
 
-    public string GetAsString()
+    public override string ToString()
     {
         return "(" + P0.ToString() + ", " + P1.ToString() + ", " + P2.ToString() + ", " + P3.ToString() + ")";
     }

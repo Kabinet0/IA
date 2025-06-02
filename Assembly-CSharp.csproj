@@ -62,13 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Util\RunHider.cs" />
+    <Compile Include="Assets\Scripts\Util\ISplineSegment.cs" />
     <Compile Include="Assets\Scripts\Spline Objects\SplineSegment.cs" />
     <Compile Include="Assets\Scripts\DerrivativeGraph.cs" />
+    <Compile Include="Assets\Scripts\Util\BaseSplineSegment.cs" />
     <Compile Include="Assets\Scripts\SplineOptimizer.cs" />
     <Compile Include="Assets\Scripts\Util\GraphicsManager2D.cs" />
     <Compile Include="Assets\Scripts\DrawSpline.cs" />
     <Compile Include="Assets\Scripts\Spline Objects\SplineContainer.cs" />
-    <Compile Include="Assets\Scripts\Spline Objects\HermitePoint.cs" />
     <Compile Include="Assets\Scripts\Util\SplineConstants.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -26,19 +26,19 @@ public class DrawSpline : MonoBehaviour
 
         foreach (var segment in spline.GetSegments())
         {
-            DrawSegment(segment, 1);
-            DrawAnnotations(segment);
+            DrawSegment(segment.getBaseSegment(), 1);
+            DrawAnnotations(segment.getBaseSegment());
         }
     }
 
-    private void DrawSegment(ISplineSegment segment, float tValue)
+    private void DrawSegment(BaseSplineSegment segment, float tValue)
     {
         var line = draw.DrawLine(segment.generatePointsOnSegment(32, tValue), Color.black, Color.black);
         line.GetComponent<LineRenderer>().sortingOrder = 2;
         drawnLine = line;
     }
 
-    private void DrawAnnotations(ISplineSegment segment)
+    private void DrawAnnotations(BaseSplineSegment segment)
     {
         draw.DrawLine(segment.GetP0(), segment.GetP1(), projectConstants.LightPurple, projectConstants.LightRed);
         draw.DrawLine(segment.GetP1(), segment.GetP2(), projectConstants.LightRed, projectConstants.LightRed);

@@ -681,13 +681,13 @@ MonoBehaviour:
   splineVisual: {fileID: 1550478152}
   poolSize: 50
   numIterations: 50
-  iterationPause: 50
+  iterationPause: 1
   points:
   - {x: -4, y: -2}
   - {x: 4, y: -2}
   - {x: 8.61, y: -4.11}
   - {x: 10, y: 2}
-  mutationRange: 5
+  mutationRange: 2
 --- !u!4 &605312238
 Transform:
   m_ObjectHideFlags: 0
