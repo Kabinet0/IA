@@ -5,6 +5,7 @@ public class SplineOptimizer : MonoBehaviour
 {
     [SerializeField] private DrawSpline splineDrawer;
     [SerializeField] private SplineContainer splineVisual;
+    [SerializeField] private DerivativeGraph derivativeDrawer;
 
     [SerializeField] private int poolSize = 10;
     [SerializeField] private int numIterations = 10;
@@ -15,6 +16,7 @@ public class SplineOptimizer : MonoBehaviour
 
     [SerializeField] private List<Vector2> points;
     [SerializeField] private float mutationRange = 3;
+    [SerializeField] private int integrationSamples = 64;
     private List<splineOptimizerRepresentation> pool = new List<splineOptimizerRepresentation>();
 
 
@@ -82,14 +84,21 @@ public class SplineOptimizer : MonoBehaviour
             Debug.Log("raw: " + str);
         }
 
-        public float CalculateFitness()
+        public float CalculateFitness(int steps)
         {
             fillRawFromParams();
 
             float total = 0;
             foreach (var segment in rawSegments)
             {
-                total += segment.GetLength(32);
+                // // Length based fitness
+                //total += segment.GetLength(precision);
+
+                // Second derivative based fitness
+                total += segment.GetTotalAcceleration(steps);
+
+                // Time based fitness
+                //total += segment.GetTime(steps);
             }
             return total;
         }
@@ -139,7 +148,7 @@ public class SplineOptimizer : MonoBehaviour
                         pool[i].RandomizeParms(mutationRange);
                     }
                     
-                    float fitness = pool[i].CalculateFitness();
+                    float fitness = pool[i].CalculateFitness(integrationSamples);
 
                     if (fitness < bestFitness)
                     {
@@ -158,6 +167,7 @@ public class SplineOptimizer : MonoBehaviour
                 //pool[bestFitnessIdx].PrintRaw();
                 splineVisual.SetSegments(pool[bestFitnessIdx].getRaw());
                 splineDrawer.RepaintSpline();
+                derivativeDrawer.RepaintSpline();
 
 
                 Debug.Log("Optimization pass " +  (iterations + 1) + " of " + numIterations + " completed.");

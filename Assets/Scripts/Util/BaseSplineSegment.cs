@@ -38,6 +38,38 @@ public class BaseSplineSegment {
         return P3;
     }
 
+    // Curve sampling functions
+
+    public static Vector2 getPointOnCurve(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t)
+    {
+        return (
+            (Mathf.Pow((1.0f - t), 3) * P0) +
+            (3.0f * t * P1 * (1.0f - t) * (1.0f - t)) +
+            (3.0f * (1.0f - t) * t * t * P2) +
+            (t * t * t * P3)
+        );
+    }
+
+    public static Vector2 getFirstDerivative(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t)
+    {
+        return (
+            (3.0f * (1.0f - t) * (1.0f - t) * (P1 - P0)) +
+            (6.0f * (1.0f - t) * t * (P2 - P1)) +
+            (3 * t * t * (P3 - P2))
+        );
+    }
+
+    public static Vector2 getSecondDerivative(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t)
+    {
+        return (
+            6.0f * (1.0f - t) *
+            (P2 - (2 * P1) + P0) +
+            6 * t * (P3 - (2 * P2) + P1)
+        );
+    }
+
+    // Generation functions
+
     public List<Vector2> generatePointsOnSegment(int steps, float tValue = 1)
     {
         return generatePointsOnSegment(GetP0(), GetP1(), GetP2(), GetP3(), tValue, steps);
@@ -53,28 +85,17 @@ public class BaseSplineSegment {
             points.Add(
                 getPointOnCurve(P0, P1, P2, P3, t)
             );
-            //Debug.Log(points[i]);
         }
 
         return points;
     }
 
-    public static Vector2 getPointOnCurve(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t)
+    public List<Vector2> generateDerivativeVectors(int steps, float tValue = 1)
     {
-        return (
-            (Mathf.Pow((1.0f - t), 3) * P0) +
-            (3.0f * t * P1 * (1.0f - t) * (1.0f - t)) +
-            (3.0f * (1.0f - t) * t * t * P2) +
-            (t * t * t * P3)
-        );
+        return generateDerivativeVectors(GetP0(), GetP1(), GetP2(), GetP3(), tValue, steps);
     }
 
-    public List<Vector2> generateDerrivativeVectors(int steps, float tValue = 1)
-    {
-        return generateDerrivativeVectors(GetP0(), GetP1(), GetP2(), GetP3(), tValue, steps);
-    }
-
-    public static List<Vector2> generateDerrivativeVectors(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float tValue, int steps = 32)
+    public static List<Vector2> generateDerivativeVectors(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float tValue, int steps = 32)
     {
         var points = new List<Vector2>();
 
@@ -82,11 +103,28 @@ public class BaseSplineSegment {
         {
             float t = ((float)i / (steps - 1)) * tValue;
             points.Add(
-                (3.0f * (1.0f - t) * (1.0f - t) * (P1 - P0)) +
-                (6.0f * (1.0f - t) * t * (P2 - P1)) +
-                (3 * t * t * (P3 - P2))
+                getFirstDerivative(P0, P1, P2, P3, t)
             );
-            //Debug.Log(points[i]);
+        }
+
+        return points;
+    }
+
+    public List<Vector2> generateSecondDerivativeVectors(int steps, float tValue = 1)
+    {
+        return generateSecondDerivativeVectors(GetP0(), GetP1(), GetP2(), GetP3(), tValue, steps);
+    }
+
+    public static List<Vector2> generateSecondDerivativeVectors(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float tValue, int steps = 32)
+    {
+        var points = new List<Vector2>();
+
+        for (int i = 0; i < steps; i++)
+        {
+            float t = ((float)i / (steps - 1)) * tValue;
+            points.Add(
+                getSecondDerivative(P0, P1, P2, P3, t)
+            );
         }
 
         return points;
@@ -107,6 +145,53 @@ public class BaseSplineSegment {
             Vector2 nextPoint = getPointOnCurve(P0, P1, P2, P3, t);
 
             sum += Vector2.Distance(currentPoint, nextPoint);
+
+            currentPoint = nextPoint;
+        }
+
+        return sum;
+    }
+
+    public float GetTotalAcceleration(int steps)
+    {
+        return GetTotalAcceleration(GetP0(), GetP1(), GetP2(), GetP3(), steps);
+    }
+
+    public static float GetTotalAcceleration(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, int steps)
+    {
+        float sum = 0;
+        Vector2 currentPoint = getSecondDerivative(P0, P1, P2, P3, 0);
+
+        float dT = 1.0f / steps;
+        for (int i = 0; i < steps; i++)
+        {
+            float t = Mathf.Clamp01((float)(i + 1) / (steps));
+            Vector2 nextPoint = getSecondDerivative(P0, P1, P2, P3, t);
+            
+            sum += ((currentPoint.magnitude + nextPoint.magnitude) / 2.0f) * dT;
+
+            currentPoint = nextPoint;
+        }
+
+        return sum;
+    }
+
+    public float GetTime(int steps)
+    {
+        return GetTime(GetP0(), GetP1(), GetP2(), GetP3(), steps);
+    }
+
+    public static float GetTime(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, int steps)
+    {
+        float sum = 0;
+        Vector2 currentPoint = P0;
+
+        for (int i = 0; i < steps; i++)
+        {
+            float t = Mathf.Clamp01((float)(i + 1) / (steps));
+            Vector2 nextPoint = getPointOnCurve(P0, P1, P2, P3, t);
+
+            //sum += (nextPoint - currentPoint) / getFirstDerivative(P0, P1, P2, P3, t);
 
             currentPoint = nextPoint;
         }

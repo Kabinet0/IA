@@ -337,7 +337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &308905377
 Transform:
   m_ObjectHideFlags: 0
@@ -347,7 +347,7 @@ Transform:
   m_GameObject: {fileID: 308905376}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalPosition: {x: 4, y: -15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -415,6 +415,7 @@ MonoBehaviour:
   draw: {fileID: 308905378}
   projectConstants: {fileID: 4147600}
   spline: {fileID: 1550478152}
+  drawOnStart: 0
 --- !u!1 &522543364
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,15 +680,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineDrawer: {fileID: 1431321847}
   splineVisual: {fileID: 1550478152}
-  poolSize: 50
-  numIterations: 50
-  iterationPause: 1
+  derivativeDrawer: {fileID: 318544326}
+  poolSize: 500
+  numIterations: 250
+  iterationPause: 0
   points:
   - {x: -4, y: -2}
   - {x: 4, y: -2}
   - {x: 8.61, y: -4.11}
   - {x: 10, y: 2}
   mutationRange: 2
+  integrationSamples: 64
 --- !u!4 &605312238
 Transform:
   m_ObjectHideFlags: 0

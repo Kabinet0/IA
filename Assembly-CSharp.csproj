@@ -64,7 +64,7 @@
     <Compile Include="Assets\Scripts\Util\RunHider.cs" />
     <Compile Include="Assets\Scripts\Util\ISplineSegment.cs" />
     <Compile Include="Assets\Scripts\Spline Objects\SplineSegment.cs" />
-    <Compile Include="Assets\Scripts\DerrivativeGraph.cs" />
+    <Compile Include="Assets\Scripts\DerivativeGraph.cs" />
     <Compile Include="Assets\Scripts\Util\BaseSplineSegment.cs" />
     <Compile Include="Assets\Scripts\SplineOptimizer.cs" />
     <Compile Include="Assets\Scripts\Util\GraphicsManager2D.cs" />

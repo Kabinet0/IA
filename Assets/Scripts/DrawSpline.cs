@@ -10,8 +10,6 @@ public class DrawSpline : MonoBehaviour
     [SerializeField] private SplineContainer spline;
     [SerializeField] private bool drawOnStart = true;
 
-    private GameObject drawnLine = null;
-
     void Start()
     {
         if (drawOnStart)
@@ -35,7 +33,6 @@ public class DrawSpline : MonoBehaviour
     {
         var line = draw.DrawLine(segment.generatePointsOnSegment(32, tValue), Color.black, Color.black);
         line.GetComponent<LineRenderer>().sortingOrder = 2;
-        drawnLine = line;
     }
 
     private void DrawAnnotations(BaseSplineSegment segment)

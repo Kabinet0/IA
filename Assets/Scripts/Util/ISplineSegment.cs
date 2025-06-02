@@ -14,7 +14,7 @@
 //	public void setData(ISplineSegment segment);
 
 //	public List<Vector2> generatePointsOnSegment(int steps, float tValue = 1);
-//	public List<Vector2> generateDerrivativeVectors(int steps, float tValue = 1);
+//	public List<Vector2> generateDerivativeVectors(int steps, float tValue = 1);
 
 //	public float GetLength(int steps);
 
