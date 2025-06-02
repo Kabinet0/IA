@@ -21,6 +21,14 @@ public class SplineSegment : MonoBehaviour
         
     }
 
+    public void setData(SplineOptimizer.SplineSegmentRaw segment)
+    {
+        P0.position = segment.P0;
+        P1.position = segment.P1;
+        P2.position = segment.P2;
+        P3.position = segment.P3;
+    }
+
     public Vector2 GetP0() {
         return P0.position;
     }
@@ -93,12 +101,17 @@ public class SplineSegment : MonoBehaviour
 
     public float GetLength(int steps)
     {
+        return GetLength(GetP0(), GetP1(), GetP2(), GetP3(), steps);
+    }
+
+    public static float GetLength(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, int steps)
+    {
         float sum = 0;
-        Vector2 currentPoint = GetP0();
+        Vector2 currentPoint = P0;
         for (int i = 0; i < steps; i++)
         {
             float t = Mathf.Clamp01((float)(i + 1) / (steps));
-            Vector2 nextPoint = getPointOnCurve(GetP0(), GetP1(), GetP2(), GetP3(), t);
+            Vector2 nextPoint = getPointOnCurve(P0, P1, P2, P3, t);
 
             sum += Vector2.Distance(currentPoint, nextPoint);
 
