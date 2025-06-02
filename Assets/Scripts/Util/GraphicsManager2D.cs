@@ -17,6 +17,14 @@ public class GraphicsManager2D : MonoBehaviour
         objectContainer.transform.parent = transform;
     }
 
+    public void Clear()
+    {
+        foreach (var item in LineSegments)
+        {
+            Destroy(item);
+        }
+    }
+
     public GameObject DrawLine(Vector2 positionA, Vector2 positionB, Color color)
     {
         return DrawLine(new List<Vector2> { positionA, positionB }, color, color);

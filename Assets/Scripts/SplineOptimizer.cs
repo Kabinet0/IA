@@ -9,6 +9,8 @@ public class SplineOptimizer : MonoBehaviour
     [SerializeField] private int poolSize = 10;
     [SerializeField] private int numIterations = 10;
     private int iterations = 0;
+    [SerializeField] private int iterationPause = 5;
+    private int pauseCounter = 0;
 
 
     public class SplineSegmentRaw
@@ -136,36 +138,47 @@ public class SplineOptimizer : MonoBehaviour
     {
         if (iterations < numIterations)
         {
-            // Run genetic optimization
-            int bestFitnessIdx = 0;
-            float bestFitness = Mathf.Infinity;
+            if (pauseCounter >= iterationPause)
+            {
+                pauseCounter = 0;
+
+                // Run genetic optimization
+                int bestFitnessIdx = 0;
+                float bestFitness = Mathf.Infinity;
             
-            for (int i = 0; i < poolSize; i++)
-            {
-                pool[i].RandomizeParms(mutationRange);
-                float fitness = pool[i].CalculateFitness();
-
-                if (fitness < bestFitness)
+                for (int i = 0; i < poolSize; i++)
                 {
-                    bestFitnessIdx = i;
-                    bestFitness = fitness;
+                    if (i != 0) {
+                        pool[i].RandomizeParms(mutationRange);
+                    }
+                    
+                    float fitness = pool[i].CalculateFitness();
+
+                    if (fitness < bestFitness)
+                    {
+                        bestFitnessIdx = i;
+                        bestFitness = fitness;
+                    }
                 }
-            }
 
-            List<Vector2> bestParms = pool[bestFitnessIdx].getPointParms();
-            for (int i = 0; i < poolSize; i++)
+                List<Vector2> bestParms = pool[bestFitnessIdx].getPointParms();
+                for (int i = 0; i < poolSize; i++)
+                {
+                    pool[i].setPointParms(new List<Vector2>(bestParms));
+                }
+
+                Debug.Log("BestFitness = " + bestFitness);
+                //pool[bestFitnessIdx].PrintRaw();
+                splineVisual.SetSegments(pool[bestFitnessIdx].getRaw());
+                splineDrawer.RepaintSpline();
+
+
+                Debug.Log("Optimization pass " +  (iterations + 1) + " of " + numIterations + " completed.");
+                iterations++;
+            } else
             {
-                pool[i].setPointParms(bestParms);
+                pauseCounter++;
             }
-
-            Debug.Log("RAAAAA");
-            pool[bestFitnessIdx].PrintRaw();
-            splineVisual.SetSegments(pool[bestFitnessIdx].getRaw());
-            splineDrawer.RepaintSpline();
-
-
-            Debug.Log("Optimization pass " +  (iterations + 1) + " of " + numIterations + " completed.");
-            iterations++;
         }
     }
 }

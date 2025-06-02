@@ -22,9 +22,7 @@ public class DrawSpline : MonoBehaviour
 
     public void RepaintSpline()
     {
-        if (drawnLine != null) {
-            Destroy(drawnLine);
-        }
+        draw.Clear();
 
         foreach (var segment in spline.GetSegments())
         {
