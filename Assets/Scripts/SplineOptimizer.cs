@@ -17,6 +17,7 @@ public class SplineOptimizer : MonoBehaviour
     [SerializeField] private List<Vector2> points;
     [SerializeField] private float mutationRange = 3;
     [SerializeField] private int integrationSamples = 64;
+    [SerializeField] private float accelLimit = 1;
     private List<splineOptimizerRepresentation> pool = new List<splineOptimizerRepresentation>();
 
 
@@ -84,9 +85,11 @@ public class SplineOptimizer : MonoBehaviour
             Debug.Log("raw: " + str);
         }
 
-        public float CalculateFitness(int steps)
+        public float CalculateFitness(int steps, float accelLimit)
         {
             fillRawFromParams();
+
+            float greatestAccel = 0;
 
             float total = 0;
             foreach (var segment in rawSegments)
@@ -95,11 +98,18 @@ public class SplineOptimizer : MonoBehaviour
                 //total += segment.GetLength(precision);
 
                 // Second derivative based fitness
-                total += segment.GetTotalAcceleration(steps);
+                //total += segment.GetTotalAcceleration(steps);
 
                 // Time based fitness
-                //total += segment.GetTime(steps);
+                total += segment.GetTime(steps);
+                // Kill paths that accelerate too hard
+                float avgAccel = segment.GetAverageAccel(steps);
+                if (avgAccel > accelLimit) {
+                    total += avgAccel;
+                }
             }
+
+
             return total;
         }
 
@@ -148,7 +158,7 @@ public class SplineOptimizer : MonoBehaviour
                         pool[i].RandomizeParms(mutationRange);
                     }
                     
-                    float fitness = pool[i].CalculateFitness(integrationSamples);
+                    float fitness = pool[i].CalculateFitness(integrationSamples, accelLimit);
 
                     if (fitness < bestFitness)
                     {

@@ -185,18 +185,41 @@ public class BaseSplineSegment {
     {
         float sum = 0;
         Vector2 currentPoint = P0;
+        float currentVelScalar = getFirstDerivative(P0, P1, P2, P3, 0).magnitude; // can use magnitude since it's always tangential
 
         for (int i = 0; i < steps; i++)
         {
             float t = Mathf.Clamp01((float)(i + 1) / (steps));
             Vector2 nextPoint = getPointOnCurve(P0, P1, P2, P3, t);
+            float nextVelScalar = getFirstDerivative(P0, P1, P2, P3, t).magnitude;
 
-            //sum += (nextPoint - currentPoint) / getFirstDerivative(P0, P1, P2, P3, t);
+            float averageVel = (nextVelScalar + currentVelScalar) / 2;
+            sum += Vector2.Distance(currentPoint, nextPoint) / averageVel;
 
             currentPoint = nextPoint;
+            currentVelScalar = nextVelScalar;
         }
 
         return sum;
+    }
+
+    public float GetAverageAccel(int steps)
+    {
+        return GetAverageAccel(GetP0(), GetP1(), GetP2(), GetP3(), steps);
+    }
+
+    public static float GetAverageAccel(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, int steps)
+    {
+        float sum = 0;
+
+        for (int i = 0; i < steps; i++)
+        {
+            float t = Mathf.Clamp01((float)(i + 1) / (steps));
+            float accel = getSecondDerivative(P0, P1, P2, P3, t).magnitude;
+            sum += accel;
+        }
+
+        return sum / steps;
     }
 
     public override string ToString()
