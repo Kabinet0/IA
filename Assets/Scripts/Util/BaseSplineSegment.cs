@@ -40,6 +40,11 @@ public class BaseSplineSegment {
 
     // Curve sampling functions
 
+    public Vector2 getPointOnCurve(float t)
+    {
+        return getPointOnCurve(P0, P1, P2, P3, t);
+    }
+
     public static Vector2 getPointOnCurve(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t)
     {
         return (

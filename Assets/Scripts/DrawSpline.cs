@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using static UnityEngine.Rendering.HableCurve;
+using Unity.VisualScripting;
 
 public class DrawSpline : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class DrawSpline : MonoBehaviour
 
     [SerializeField] private SplineContainer spline;
     [SerializeField] private bool drawOnStart = true;
+
+    [SerializeField] private int steps = 5;
 
     void Start()
     {
@@ -26,6 +29,19 @@ public class DrawSpline : MonoBehaviour
         {
             DrawSegment(segment.getBaseSegment(), 1);
             DrawAnnotations(segment.getBaseSegment());
+
+            // Curve length visualization
+            //Vector2 currentPoint = segment.getBaseSegment().GetP0();
+            //for (int i = 0; i < steps; i++)
+            //{
+            //    float t = Mathf.Clamp01((float)(i + 1) / (steps));
+            //    Vector2 nextPoint = segment.getBaseSegment().getPointOnCurve(t);
+
+            //    var line = draw.DrawLine(currentPoint, nextPoint, projectConstants.Red);
+            //    line.GetComponent<LineRenderer>().sortingOrder = 3;
+
+            //    currentPoint = nextPoint;
+            //}
         }
     }
 

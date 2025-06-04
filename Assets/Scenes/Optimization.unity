@@ -683,7 +683,7 @@ MonoBehaviour:
   derivativeDrawer: {fileID: 318544326}
   poolSize: 500
   numIterations: 250
-  iterationPause: 0
+  iterationPause: 50
   points:
   - {x: -4, y: -2}
   - {x: 4, y: -2}

@@ -89,8 +89,6 @@ public class SplineOptimizer : MonoBehaviour
         {
             fillRawFromParams();
 
-            float greatestAccel = 0;
-
             float total = 0;
             foreach (var segment in rawSegments)
             {
@@ -98,15 +96,15 @@ public class SplineOptimizer : MonoBehaviour
                 //total += segment.GetLength(precision);
 
                 // Second derivative based fitness
-                //total += segment.GetTotalAcceleration(steps);
+                total += segment.GetTotalAcceleration(steps);
 
                 // Time based fitness
-                total += segment.GetTime(steps);
-                // Kill paths that accelerate too hard
-                float avgAccel = segment.GetAverageAccel(steps);
-                if (avgAccel > accelLimit) {
-                    total += avgAccel;
-                }
+                //total += segment.GetTime(steps);
+                //// Kill paths that accelerate too hard
+                //float avgAccel = segment.GetAverageAccel(steps);
+                //if (avgAccel > accelLimit) {
+                //    total += avgAccel;
+                //}
             }
 
 
