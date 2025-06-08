@@ -93,7 +93,7 @@ public class SplineOptimizer : MonoBehaviour
             foreach (var segment in rawSegments)
             {
                 // // Length based fitness
-                //total += segment.GetLength(precision);
+                //total += segment.GetLength(steps);
 
                 // Second derivative based fitness
                 total += segment.GetTotalAcceleration(steps);

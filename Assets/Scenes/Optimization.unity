@@ -347,7 +347,7 @@ Transform:
   m_GameObject: {fileID: 308905376}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -15, z: 0}
+  m_LocalPosition: {x: 4, y: -20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -416,6 +416,7 @@ MonoBehaviour:
   projectConstants: {fileID: 4147600}
   spline: {fileID: 1550478152}
   drawOnStart: 0
+  steps: 128
 --- !u!1 &522543364
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +684,7 @@ MonoBehaviour:
   derivativeDrawer: {fileID: 318544326}
   poolSize: 500
   numIterations: 250
-  iterationPause: 50
+  iterationPause: 0
   points:
   - {x: -4, y: -2}
   - {x: 4, y: -2}
@@ -887,7 +888,7 @@ Transform:
   m_GameObject: {fileID: 931022411}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: -10}
+  m_LocalPosition: {x: 4, y: -2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1331,6 +1332,7 @@ MonoBehaviour:
   projectConstants: {fileID: 4147600}
   spline: {fileID: 1550478152}
   drawOnStart: 0
+  steps: 5
 --- !u!1 &1465216699
 GameObject:
   m_ObjectHideFlags: 0

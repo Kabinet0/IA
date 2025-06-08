@@ -1510,7 +1510,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &725144076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1662,7 +1662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &797740171
 Transform:
   m_ObjectHideFlags: 0
@@ -2020,6 +2020,7 @@ MonoBehaviour:
   draw: {fileID: 121220584}
   projectConstants: {fileID: 1684678587}
   spline: {fileID: 797740172}
+  drawOnStart: 1
 --- !u!1 &1122425032
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,6 +2068,8 @@ MonoBehaviour:
   draw: {fileID: 1906655663}
   projectConstants: {fileID: 1684678587}
   spline: {fileID: 226965439}
+  drawOnStart: 1
+  steps: 5
 --- !u!1 &1135282282
 GameObject:
   m_ObjectHideFlags: 0
@@ -3143,6 +3146,8 @@ MonoBehaviour:
   draw: {fileID: 725144076}
   projectConstants: {fileID: 1684678587}
   spline: {fileID: 797740172}
+  drawOnStart: 1
+  steps: 3
 --- !u!1 &1795385845
 GameObject:
   m_ObjectHideFlags: 0
@@ -3270,6 +3275,7 @@ MonoBehaviour:
   draw: {fileID: 189041838}
   projectConstants: {fileID: 1684678587}
   spline: {fileID: 226965439}
+  drawOnStart: 1
 --- !u!1 &1994306701
 GameObject:
   m_ObjectHideFlags: 0

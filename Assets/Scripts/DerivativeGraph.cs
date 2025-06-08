@@ -9,6 +9,8 @@ public class DerivativeGraph : MonoBehaviour
     [SerializeField] private SplineContainer spline;
     [SerializeField] private bool drawOnStart = true;
 
+    [SerializeField] private int steps = 50;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,7 +35,7 @@ public class DerivativeGraph : MonoBehaviour
         int k = 0;
         foreach (var segment in spline.GetSegments())
         {
-            var dxdy = segment.getBaseSegment().generateSecondDerivativeVectors(32);
+            var dxdy = segment.getBaseSegment().generateDerivativeVectors(steps);
             var scaledList = new List<Vector2>();
 
             // ignore first point?
